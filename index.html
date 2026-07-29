@@ -358,7 +358,6 @@
     margin-bottom:16px;
   }
 
- 
   .playbook-card h2{font-size:29px; margin-bottom:16px; line-height:1.15;}
   .playbook-list{margin-bottom:26px;}
   .playbook-list li{
@@ -492,6 +491,54 @@
   }
   .guide-icon svg{width:20px; height:20px; fill:#221602;}
 
+  /* ---------------- COMMUNITY ---------------- */
+  .community-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:46px;
+    display:grid;
+    grid-template-columns:1.3fr 0.7fr;
+    gap:40px;
+    align-items:center;
+  }
+  .live-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    background:rgba(23,213,160,0.1);
+    border:1px solid rgba(23,213,160,0.3);
+    color:var(--teal);
+    font-family:var(--font-mono);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:20px;
+    margin-bottom:18px;
+  }
+  .live-dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--teal);
+    animation:livePulse 1.6s ease-in-out infinite;
+  }
+  @keyframes livePulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(23,213,160,0.45);}
+    50%{box-shadow:0 0 0 6px rgba(23,213,160,0);}
+  }
+  .community-card h2{font-size:28px; margin-bottom:16px;}
+  .community-copy p{
+    font-size:14.5px;
+    color:var(--mid);
+    line-height:1.7;
+    margin-bottom:12px;
+    max-width:560px;
+  }
+  .community-copy p:last-child{margin-bottom:0;}
+  .community-copy p b{color:var(--hi); font-weight:600;}
+  .community-cta-wrap{display:flex; justify-content:center;}
+
   /* ---------------- FOOTER ---------------- */
   footer{
     border-top:1px solid var(--border);
@@ -524,7 +571,7 @@
     .hero-figure{order:-1; margin-bottom:10px;}
     .hero-figure img{height:280px;}
     .promo-grid{grid-template-columns:repeat(2,1fr);}
-    .playbook-card, .tz-card{grid-template-columns:1fr; padding:32px;}
+    .playbook-card, .tz-card, .community-card{grid-template-columns:1fr; padding:32px;}
     .playbook-media{order:-1;}
     .resources-grid{grid-template-columns:repeat(2,1fr);}
   }
@@ -564,6 +611,7 @@
       <a href="#playbook">Playbook</a>
       <a href="#tradezella">TradeZella</a>
       <a href="#resources">Resources</a>
+      <a href="#community">Community</a>
     </div>
     <a href="#discounts" class="btn nav-cta">Get Funded</a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
@@ -603,8 +651,6 @@
     </div>
 
     <div class="promo-grid" id="promoGrid">
-      <!-- Each tile: swap the <img src> for your own promo graphic. -->
-      <!-- The class on .promo-tile (elite-daily / elite-access / instant-sim / sitewide / ignite) controls the tag, title, bullets and CTA copy — no need to edit anything else. -->
       <article class="promo-tile sitewide">
         <div class="promo-media"><img src="/stonesquaredtrades/images/topone-card_a9ef33f1bdbb-STONE.png" alt="" onerror="markMissing(this)"></div>
       </article>
@@ -622,7 +668,7 @@
       </article>
       <article class="promo-tile ignite">
         <div class="promo-media"><img src="/stonesquaredtrades/images/topone-card_e22b2a338271-STONE.png" alt="" onerror="markMissing(this)"></div>
-      </article>      
+      </article>
     </div>
   </div>
 </section>
@@ -714,6 +760,25 @@
   </div>
 </section>
 
+<div class="candle-divider"></div>
+
+<!-- COMMUNITY -->
+<section class="pad" id="community">
+  <div class="wrap">
+    <div class="community-card">
+      <div class="community-copy">
+        <div class="live-badge"><span class="live-dot"></span> Live Every Morning</div>
+        <h2>Trading alone is hard.</h2>
+        <p>Joining a trading community is one of the most important things you can do for your success as a trader. I trade with the <b>ASFX</b> community myself — I'm not a paid advertiser, just a happy member.</p>
+        <p>Over <b>50% of ASFX members are getting payouts</b>. Trade live every morning alongside ASFX coaches and other traders working the same setups you are.</p>
+      </div>
+      <div class="community-cta-wrap">
+        <a href="https://asfxtv.uscreen.io/?referral_code=DHkkeackBJkHHF" target="_blank" rel="noopener" class="btn btn-primary btn-block">Join the ASFX!</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
@@ -726,6 +791,7 @@
         <a href="#playbook">Playbook</a>
         <a href="#tradezella">TradeZella</a>
         <a href="#resources">Resources</a>
+        <a href="#community">Community</a>
       </div>
     </div>
     <p class="disclaimer">Trading futures involves substantial risk of loss and is not suitable for all investors. Strategies shown are simplified for educational purposes — entries and exits also depend on market structure, news of the day, and other variables. Past performance is not indicative of future results.</p>
@@ -754,11 +820,6 @@
   function renderCandles(){
     const pattern = [6,10,4,14,8,5,12,7,9,4,11,6];
     document.querySelectorAll('.candle-divider').forEach(div => {
-      let html = '';
-      pattern.forEach((h, i) => {
-        const dir = i % 3 === 0 ? 'down' : 'up';
-        html += `<div class="wick" style="height:${h+6}px"></div>`;
-      });
       div.innerHTML = pattern.map((h,i)=>{
         const dir = (i * 7) % 3 === 0 ? 'down':'up';
         return `<div class="body ${dir}" style="height:${h}px"></div>`;
