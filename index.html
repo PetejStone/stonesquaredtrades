@@ -561,6 +561,82 @@
   .affiliate-card h2{font-size:27px; margin-bottom:12px;}
   .affiliate-card p{font-size:14px; color:var(--mid); margin-bottom:24px; max-width:460px;}
 
+  /* ---------------- GIVEAWAY ---------------- */
+  .giveaway-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:46px;
+    max-width:620px;
+    margin:0 auto;
+  }
+  .giveaway-instructions{
+    background:rgba(23,213,160,0.08);
+    border:1px solid rgba(23,213,160,0.25);
+    border-radius:14px;
+    padding:18px 22px;
+    margin-bottom:28px;
+  }
+  .giveaway-instructions p{
+    font-size:13.5px;
+    color:var(--mid);
+    line-height:1.6;
+  }
+  .giveaway-instructions p + p{margin-top:8px;}
+  .giveaway-instructions a{
+    color:var(--teal);
+    font-weight:700;
+  }
+  .giveaway-instructions a:hover{text-decoration:underline;}
+  .giveaway-note{
+    color:var(--gold) !important;
+    font-weight:600;
+    font-size:12.5px !important;
+  }
+  .giveaway-form{display:flex; flex-direction:column; gap:16px;}
+  .form-row{display:flex; gap:16px;}
+  .form-field{flex:1; display:flex; flex-direction:column; gap:6px;}
+  .form-field label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--mid);
+    font-weight:600;
+  }
+  .form-field input{
+    background:var(--raise);
+    border:1px solid var(--border-strong);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:14px;
+    color:var(--hi);
+    font-family:var(--font-body);
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .form-field input::placeholder{color:var(--low);}
+  .form-field input:focus{
+    border-color:var(--cyan);
+    box-shadow:0 0 0 3px rgba(31,182,255,0.15);
+  }
+  .form-status{
+    text-align:center;
+    font-size:13px;
+    font-weight:600;
+    min-height:18px;
+  }
+  .form-status.success{color:var(--teal);}
+  .form-status.error{color:var(--red);}
+  .giveaway-disclaimer{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--low);
+    font-style:italic;
+    margin-top:22px;
+    line-height:1.6;
+  }
+
   /* ---------------- FOOTER ---------------- */
   footer{
     border-top:1px solid var(--border);
@@ -605,6 +681,8 @@
     .resources-grid{grid-template-columns:1fr;}
     .guide-card{flex-direction:column; align-items:flex-start;}
     .ticker-track{animation-duration:20s;}
+    .form-row{flex-direction:column; gap:16px;}
+    .giveaway-card{padding:30px 24px;}
   }
 </style>
 <script>
@@ -634,6 +712,7 @@
       <a href="#tradezella">TradeZella</a>
       <a href="#resources">Resources</a>
       <a href="#community">Community</a>
+      <a href="#giveaway">Giveaway</a>
     </div>
     <a href="#discounts" class="btn nav-cta">Get Funded</a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
@@ -819,6 +898,48 @@
   </div>
 </section>
 
+<div class="candle-divider"></div>
+
+<!-- GIVEAWAY -->
+<section class="pad" id="giveaway">
+  <div class="wrap">
+    <div class="section-head" style="margin-left:auto; margin-right:auto; text-align:center; max-width:620px;">
+      <div class="eyebrow" style="justify-content:center;">Monthly Giveaway</div>
+      <h2>Enter the Giveaway</h2>
+    </div>
+
+    <div class="giveaway-card">
+      <div class="giveaway-instructions">
+        <p>Follow <a href="https://www.instagram.com/stonesquaredtrades" target="_blank" rel="noopener">Stonesquaredtrades</a> on Instagram to enter.</p>
+        <p class="giveaway-note">Users who are not following will not be considered for entry.</p>
+      </div>
+
+      <p style="font-size:12.5px; color:var(--low); font-family:var(--font-mono); letter-spacing:0.5px; text-transform:uppercase; margin-bottom:14px;">Fill out form below:</p>
+
+      <form id="giveawayForm" class="giveaway-form">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required>
+          </div>
+          <div class="form-field">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="igTag">Instagram Tag</label>
+          <input type="text" id="igTag" name="igTag" placeholder="@yourhandle" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="giveawaySubmitBtn">Enter Giveaway</button>
+        <p class="form-status" id="giveawayStatus"></p>
+      </form>
+
+      <p class="giveaway-disclaimer">Your information is collected only to contact giveaway winners. I will not store it beyond that purpose or sell it to any third party.</p>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
@@ -924,6 +1045,49 @@
     const open = navLinks.style.display === 'flex';
     navLinks.style.display = open ? 'none' : 'flex';
     navLinks.style.cssText += open ? '' : 'position:absolute; top:70px; left:0; right:0; background:#060911; flex-direction:column; padding:20px 28px; border-bottom:1px solid rgba(255,255,255,0.09);';
+  });
+
+  // ---- Giveaway form -> Google Apps Script ----
+  // Paste the Web App URL you get from deploying the Apps Script (see setup instructions).
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgu72Lq0_TGqIk6X4zllUcAYTDM5kwrhFHUnNZ7COyy4EO0cHUYwIC9v-z-noD758u/exec';
+
+  const giveawayForm = document.getElementById('giveawayForm');
+  const giveawayStatus = document.getElementById('giveawayStatus');
+  const giveawaySubmitBtn = document.getElementById('giveawaySubmitBtn');
+
+  giveawayForm.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    if (GOOGLE_SCRIPT_URL.indexOf('PASTE_YOUR') === 0) {
+      giveawayStatus.textContent = 'Form is not connected yet — add your Google Script URL.';
+      giveawayStatus.className = 'form-status error';
+      return;
+    }
+
+    const data = new FormData(giveawayForm);
+    giveawaySubmitBtn.disabled = true;
+    giveawaySubmitBtn.textContent = 'Submitting...';
+    giveawayStatus.textContent = '';
+    giveawayStatus.className = 'form-status';
+
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: data
+    })
+    .then(() => {
+      giveawayStatus.textContent = "You're entered! Good luck.";
+      giveawayStatus.className = 'form-status success';
+      giveawayForm.reset();
+    })
+    .catch(() => {
+      giveawayStatus.textContent = 'Something went wrong — please try again.';
+      giveawayStatus.className = 'form-status error';
+    })
+    .finally(() => {
+      giveawaySubmitBtn.disabled = false;
+      giveawaySubmitBtn.textContent = 'Enter Giveaway';
+    });
   });
 </script>
 
