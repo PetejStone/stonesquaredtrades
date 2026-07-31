@@ -685,6 +685,14 @@
     .form-row{flex-direction:column; gap:16px;}
     .giveaway-card{padding:30px 24px;}
   }
+
+  .giveaway-btn {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 5;
+    
+  }
 </style>
 <script>
   // Defined early so inline onerror handlers work as soon as images are parsed.
@@ -719,7 +727,7 @@
     <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
   </nav>
 </header>
-
+<a href="#giveaway" class="btn nav-cta giveaway-btn">Giveaway</a>
 <!-- HERO -->
 <section class="hero">
   <div class="wrap hero-grid">
